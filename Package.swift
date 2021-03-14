@@ -15,8 +15,5 @@ let package = Package(
         .target(name: "macocr", dependencies: [
             .product(name: "ArgumentParser", package: "swift-argument-parser"),
         ]),
-        .testTarget(name: "macocrTests", dependencies: [
-                "macocr",
-        ]),
     ]
 )
