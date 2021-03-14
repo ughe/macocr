@@ -9,11 +9,8 @@ let package = Package(
         .macOS(.v10_15)
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.3.0"),
     ],
     targets: [
-        .target(name: "macocr", dependencies: [
-            .product(name: "ArgumentParser", package: "swift-argument-parser"),
-        ]),
+        .target(name: "macocr", dependencies: []),
     ]
 )
