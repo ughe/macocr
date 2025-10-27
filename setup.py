@@ -1,23 +1,27 @@
-from setuptools import setup, Extension
-from setuptools.command.build_ext import build_ext
+from setuptools import setup
+from setuptools.command.build_py import build_py
 import subprocess
+import shutil
 import os
 
-class SwiftBuild(build_ext):
+class BuildSwift(build_py):
     def run(self):
+        # Build Swift binary from source
         subprocess.check_call(['swift', 'build', '-c', 'release'])
-        os.makedirs('macocr_py/bin', exist_ok=True)
-        subprocess.check_call([
-            'cp', '.build/release/macocr', 'macocr_py/bin/'
-        ])
+
+        # Copy binary to package
+        bin_dir = os.path.join(self.build_lib, 'macocr_py', 'bin')
+        os.makedirs(bin_dir, exist_ok=True)
+        shutil.copy('.build/release/macocr', bin_dir)
+
+        # Continue normal build
+        super().run()
 
 setup(
     name='macocr',
     version='0.1.0',
     packages=['macocr_py'],
-    package_data={'macocr_py': ['bin/macocr']},
-    cmdclass={'build_ext': SwiftBuild},
-    ext_modules=[Extension('macocr_py', sources=[])],
+    cmdclass={'build_py': BuildSwift},
     url='https://github.com/ughe/macocr',
     description='macOS OCR using Vision framework',
 )
