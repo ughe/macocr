@@ -1,4 +1,8 @@
 .DS_Store
+.venv
+*~
+*.swp
+*.egg-info
 
 # Xcode
 #
